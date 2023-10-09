@@ -75,19 +75,19 @@
   (if (< -10 number 10)
       number
       (prepend-digit
-        (reverse-digits (quotient number 10))
-        (remainder number 10))))
+       (reverse-digits (quotient number 10))
+       (remainder number 10))))
 
 ;; or maybe... like that?
 (define (Y f)
-  ((lambda (x) (f (lambda (y) ((x x) y))))
-   (lambda (x) (f (lambda (y) ((x x) y))))))
+  (define w2 (λ (x) (f (λ (y) ((x x) y)))))
+  (w2 w2))
 
 (define reverse-digits-recursion???
-  (Y (lambda (pr)
-       (lambda (n)
+  (Y (λ (pr)
+       (λ (n)
          (if (< -10 n 10)
              n
-             ((lambda (rest)
+             ((λ (rest)
                 (+ rest (* (remainder n 10) (expt 10 (count-digits rest)))))
               (pr (quotient n 10))))))))
