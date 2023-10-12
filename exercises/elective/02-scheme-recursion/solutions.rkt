@@ -20,8 +20,8 @@
       (test-suite
        ,header
        ,@(map (lambda (test-params)
-                (let ([expected (car test-params)]
-                      [args     (cdr test-params)])
+                (let ([args     (car test-params)]
+                      [expected (cdr test-params)])
                   `(check equal? (,fn ,@args) ,expected)))
               tests)))
     ns))
@@ -47,12 +47,12 @@
               (// remaining 10))))
   (iter 0 n))
 
-;; (expected . (arg1 arg2 ...))
-(let ([tests '((15 . (12345))
-               (15 . (1020304050))
-               (0  . (0))
-               (10 . (1009))
-               (1  . (1000000)))])
+;; ((arg1 arg2 ...) . expected)
+(let ([tests '(((12345)      . 15)
+               ((1020304050) . 15)
+               ((0)          . 0)
+               ((1009)       . 10)
+               ((1000000)    . 1))])
   (gen-test-suite "sum-digits"      sum-digits      tests)
   (gen-test-suite "sum-digits-iter" sum-digits-iter tests))
 
@@ -67,7 +67,7 @@
               (+ i 1))))
   (iter 1 1))
 
-(let ([tests '((4 6))])
+(let ([tests '(((6) . 4))])
   (gen-test-suite "count-divisors" count-divisors tests))
 
 ;; 3
@@ -83,11 +83,11 @@
              (iter (+ i 1)))))
   (iter 2))
 
-(let ([tests '((#t . (2))
-               (#t . (3))
-               (#f . (4))
-               (#t . (5))
-               (#f . (6)))])
+(let ([tests '(((2) . #t)
+               ((3) . #t)
+               ((4) . #f)
+               ((5) . #t)
+               ((6) . #f))])
   (gen-test-suite "prime?"   prime?   tests)
   (gen-test-suite "prime?-2" prime?-2 tests))
 
@@ -103,8 +103,8 @@
              (increasing-digits-iter (// m 10)))))
   (iter n))
 
-(let ([tests '((#t . (123))
-               (#f . (132)))])
+(let ([tests '(((123) . #t)
+               ((132) . #f))])
   (gen-test-suite "increasing-digits-iter" increasing-digits-iter tests))
 
 ;; 5
@@ -168,10 +168,10 @@
      (take (list-digits-reverse n) (length k-digits))
      k-digits)))
 
-(let ([tests '((#t . (152352363123 2363123))
-               (#f . (152352363123 3023))
-               (#f . (5            0))
-               (#t . (0            0)))])
+(let ([tests '(((152352363123 2363123) . #t)
+               ((152352363123 3023)    . #f)
+               ((5            0)       . #f)
+               ((0            0)       . #t))])
   (gen-test-suite "ends-with?-iter-1"  ends-with?-iter-1  tests)
   (gen-test-suite "ends-with?-iter*-2" ends-with?-iter*-2 tests)
   (gen-test-suite "ends-with?-iter-3"  ends-with?-iter-3  tests)
@@ -184,10 +184,10 @@
   (ends-with? (* n n)
               n))
 
-(let ([tests '((#f . (4))
-               (#t . (5))
-               (#t . (6))
-               (#f . (11)))])
+(let ([tests '(((4)  . #f)
+               ((5)  . #t)
+               ((6)  . #t)
+               ((11) . #f))])
   (gen-test-suite "automorphic?" automorphic? tests))
 
 ;; 6
@@ -201,9 +201,9 @@
               (+ i 1))))
   (= n (iter 0 1)))
 
-(let ([tests '((#t . (6))
-               (#f . (8126))
-               (#t . (33550336)))])
+(let ([tests '(((6)        . #t)
+               ((8126)     . #f)
+               ((33550336) . #t))])
   (gen-test-suite "perfect?" perfect? tests))
 
 ;; (and 7 8)
@@ -224,8 +224,13 @@
 (define (decimal-to-binary-iter n)
   (base1-to-base2 10 2 n))
 
-(let ([tests '((5   . (101))
-               (17  . (10001))
-               (351 . (101011111)))])
+(let ([tests '(((101)       . 5)
+               ((10001)     . 17)
+               ((101011111) . 351))])
   (gen-test-suite "binary-to-decimal-iter" binary-to-decimal-iter tests)
-  (gen-test-suite "decimal-to-binary-iter" decimal-to-binary-iter (map reverse tests)))
+  (gen-test-suite "decimal-to-binary-iter" decimal-to-binary-iter
+                  (map (lambda (pair)
+                         (match pair
+                           [(cons (list binary) decimal)
+                            (cons (list decimal) binary)]))
+                       tests)))
