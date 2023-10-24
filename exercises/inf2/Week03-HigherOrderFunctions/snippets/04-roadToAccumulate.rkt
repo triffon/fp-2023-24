@@ -92,7 +92,7 @@
 (expression3-with-smart-function2 1 5)
 
 ; Expression 1
-; 1^2 + 3^2 * 5^2 * ... * n^2
+; 1^2 + 3^2 + 5^2 + ... + n^2
 
 (define (expression4 a b)
   (define (helper current result)
