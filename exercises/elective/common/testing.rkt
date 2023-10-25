@@ -23,7 +23,11 @@
                 ,@(map (lambda (test-params)
                          (let ([args     (car test-params)]
                                [expected (cdr test-params)])
-                           `(check equal? (,fn ,@args) ,expected)))
+                           `((if (procedure? ,expected)
+                                 check-pred
+                                 check-equal?)
+                              ,expected
+                              (,fn ,@args))))
                        tests)))
              ns))
            (values)))]))
