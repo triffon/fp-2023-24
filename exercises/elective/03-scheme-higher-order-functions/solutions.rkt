@@ -27,6 +27,7 @@
 
 (define (1+ x) (+ x 1))
 (define (id x) x)
+(define (square x) (* x x))
 
 ;;;;;;;;;;;;
 ;; LAMBDA ;;
@@ -36,29 +37,13 @@
 (define (o f g)
   (lambda (x) (f (g x))))
 
-(let ([tests '((((lambda (x) (+ x 1))
-                 (lambda (x) (* x x)))
+(let ([tests `(((,1+
+                 ,square)
                  . (lambda (f) (= (f 3) 10)))
-               (((lambda (x) x)
+               ((,id
                  (lambda (x) (- x 5)))
                  . (lambda (f) (= (f 17) 12))))])
   (gen-test-suite o tests))
-
-(run-tests
-  (test-suite "compose tests"
-    (check-equal?
-      ((compose
-          1+
-          (lambda (x) (* x x)))
-        3)
-      10)
-    (check-equal?
-      ((compose
-          id
-          (lambda (x) (- x 5)))
-        17)
-      12))
-  'verbose)
 
 ;; 2 (tests are at the end)
 (define (repeated n f x)
@@ -151,9 +136,9 @@
 (define (repeat-accum-i n f)
   (accumulate-i o id 1 n (lambda (_) f) 1+))
 
-(let ([tests '(((10  (lambda (x) (* x 2))) . (lambda (f) (= (f 1) 1024)))
-               ((100 (lambda (x) (+ x 1))) . (lambda (f) (= (f 0) 100)))
-               ((0   (lambda (x) (+ x 1))) . (lambda (f) (= (f 42) 42))))])
+(let ([tests `(((10  (lambda (x) (* x 2))) . (lambda (f) (= (f 1) 1024)))
+               ((100 ,1+) . (lambda (f) (= (f 0) 100)))
+               ((0   ,1+) . (lambda (f) (= (f 42) 42))))])
   (gen-test-suite repeat tests)
   (gen-test-suite repeat-accum tests)
   (gen-test-suite repeat-accum-i tests))
