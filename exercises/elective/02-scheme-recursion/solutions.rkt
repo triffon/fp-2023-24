@@ -1,31 +1,5 @@
 #lang racket
-
-;; Testing, don't look (yet :D)
-(require rackunit)
-(require rackunit/text-ui)
-
-(define-namespace-anchor anc)
-(define ns (namespace-anchor->namespace anc))
-
-(define (gen-test-suite header fn tests [run? #t])
-  (display
-   (string-append "\nTesting " header ":\n"))
-  (define maybe-eval
-    (if run?
-        eval
-        (lambda (code _) code)))
-  (time
-   (maybe-eval
-    `(run-tests
-      (test-suite
-       ,header
-       ,@(map (lambda (test-params)
-                (let ([args     (car test-params)]
-                      [expected (cdr test-params)])
-                  `(check equal? (,fn ,@args) ,expected)))
-              tests)))
-    ns))
-  (values))
+(require "../common/testing.rkt")
 
 ;; Util
 (define %  remainder)
@@ -53,8 +27,8 @@
                ((0)          . 0)
                ((1009)       . 10)
                ((1000000)    . 1))])
-  (gen-test-suite "sum-digits"      sum-digits      tests)
-  (gen-test-suite "sum-digits-iter" sum-digits-iter tests))
+  (gen-test-suite sum-digits      tests)
+  (gen-test-suite sum-digits-iter tests))
 
 ;; 2
 (define (count-divisors n)
@@ -68,7 +42,7 @@
   (iter 1 1))
 
 (let ([tests '(((6) . 4))])
-  (gen-test-suite "count-divisors" count-divisors tests))
+  (gen-test-suite count-divisors tests))
 
 ;; 3
 (define (prime? n)
@@ -88,8 +62,8 @@
                ((4) . #f)
                ((5) . #t)
                ((6) . #f))])
-  (gen-test-suite "prime?"   prime?   tests)
-  (gen-test-suite "prime?-2" prime?-2 tests))
+  (gen-test-suite prime?   tests)
+  (gen-test-suite prime?-2 tests))
 
 ;; 4
 (define (increasing-digits-iter n)
@@ -105,7 +79,7 @@
 
 (let ([tests '(((123) . #t)
                ((132) . #f))])
-  (gen-test-suite "increasing-digits-iter" increasing-digits-iter tests))
+  (gen-test-suite increasing-digits-iter tests))
 
 ;; 5
 (define (count-digits-iter n [base 10])
@@ -172,10 +146,10 @@
                ((152352363123 3023)    . #f)
                ((5            0)       . #f)
                ((0            0)       . #t))])
-  (gen-test-suite "ends-with?-iter-1"  ends-with?-iter-1  tests)
-  (gen-test-suite "ends-with?-iter*-2" ends-with?-iter*-2 tests)
-  (gen-test-suite "ends-with?-iter-3"  ends-with?-iter-3  tests)
-  (gen-test-suite "ends-with?-lists-4" ends-with?-lists-4 tests))
+  (gen-test-suite ends-with?-iter-1  tests)
+  (gen-test-suite ends-with?-iter*-2 tests)
+  (gen-test-suite ends-with?-iter-3  tests)
+  (gen-test-suite ends-with?-lists-4 tests))
 
 ;; 5.1
 (define (automorphic? n)
@@ -188,7 +162,7 @@
                ((5)  . #t)
                ((6)  . #t)
                ((11) . #f))])
-  (gen-test-suite "automorphic?" automorphic? tests))
+  (gen-test-suite automorphic? tests))
 
 ;; 6
 (define (perfect? n)
@@ -204,7 +178,7 @@
 (let ([tests '(((6)        . #t)
                ((8126)     . #f)
                ((33550336) . #t))])
-  (gen-test-suite "perfect?" perfect? tests))
+  (gen-test-suite perfect? tests))
 
 ;; (and 7 8)
 (define (base1-to-base2 base1 base2 n)
@@ -227,8 +201,8 @@
 (let ([tests '(((101)       . 5)
                ((10001)     . 17)
                ((101011111) . 351))])
-  (gen-test-suite "binary-to-decimal-iter" binary-to-decimal-iter tests)
-  (gen-test-suite "decimal-to-binary-iter" decimal-to-binary-iter
+  (gen-test-suite binary-to-decimal-iter tests)
+  (gen-test-suite decimal-to-binary-iter
                   (map (lambda (pair)
                          (match pair
                            [(cons (list binary) decimal)

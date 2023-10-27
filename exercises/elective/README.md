@@ -5,3 +5,5 @@
 [Седмица 02](./02-scheme-recursion/): Рекурсия
 
 [Седмица 03](./03-scheme-higher-order-functions/): Функции от по-висок ред, `lambda` и `let`-ове
+
+[Седмица 04](./04-scheme-lists/): Списъци
