@@ -7,3 +7,5 @@
 [Седмица 03](./03-scheme-higher-order-functions/): Функции от по-висок ред, `lambda` и `let`-ове
 
 [Седмица 04](./04-scheme-lists/): Списъци
+
+[Седмица 06](./06-scheme-fold-map-filter/): `fold`, `map`, `filter`
