@@ -111,3 +111,21 @@
 
 (define (foldl1 op l)
   (foldl op (car l) (cdr l)))
+
+;; (append '(1 2 3) '(4 5 6) '(7 8 9)) --> (cons 1 (append '(2 3) '(4 5 6) '(7 8 9))
+;; ls --> ((1 2 3) (4 5 6) (7 8 9))
+;; first --> (1 2 3)
+;; result --> (1 2 3 4 5 6 7 8 9)
+;; --> ((1 2 3) ....)
+
+;; (append '() '(1 2 3) '(4 5 6) '(7 8 9))
+;; ls --> (() (1 2 3) (4 5 6) (7 8 9))
+;; (cdr ls) --> ((1 2 3) (4 5 6) (7 8 9))
+
+(define (append . ls)
+  (if (null? ls) '()
+      ; ls има поне един елемент
+      (let ((first (car ls)))
+        (if (null? first) (apply append (cdr ls))
+            ; first има поне един елемент
+            (cons (car first) (apply append (cdr first) (cdr ls)))))))
