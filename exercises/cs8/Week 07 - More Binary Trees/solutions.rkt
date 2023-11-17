@@ -135,19 +135,17 @@
         (root tree)
         (find-next (left tree))))
   (define (remove-root tree)
-    (let ((next (find-next (right tree))))
-      (make-tree next
-                 (left tree)
-                 (bst-remove next (right tree)))))
-  (define (search el tree)
-    (cond [(empty? tree) '()]
-          [(equal? (root tree) el) (remove-root tree)]
-          [(< el (root tree))
-           (search el (left tree))]
-          [else (search el (right tree))]))
-  (if (empty? (right tree))
-      (left tree)
-      (search el tree)))
+    (if (empty? (right tree))
+        (left tree)
+        (let ((next (find-next (right tree))))
+          (make-tree next
+                     (left tree)
+                     (bst-remove next (right tree))))))
+  (cond [(empty? tree) '()]
+        [(equal? (root tree) el) (remove-root tree)]
+        [(< el (root tree))
+         (bst-remove el (left tree))]
+        [else (bst-remove` el (right tree))]))
   
 
     
