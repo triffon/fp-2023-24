@@ -63,6 +63,10 @@
 (define (snoc x r) (append r (list x)))
 
 (define (reverse l)
+  (if (null? l) l
+      (snoc (car l) (reverse (cdr l)))))
+
+(define (reverse l)
   (foldr snoc '() l))
 
 (define (reverse l)
