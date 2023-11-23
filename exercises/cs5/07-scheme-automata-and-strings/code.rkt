@@ -67,13 +67,30 @@
    (cons 'start 'ivan)
    (cons 'final (list 'pesho))))
 
+(define baba-automaton
+  (list
+   (cons 'delta
+         (list
+            (cons (cons 'gosho #\b) 'pesho)
+            (cons (cons 'gosho #\a) 'err)
+            (cons (cons 'pesho #\b) 'err)
+            (cons (cons 'pesho #\a) 'gosho)
+            (cons (cons 'err #\a) 'err)
+            (cons (cons 'err #\b) 'err)))
+
+   (cons 'start 'gosho)
+   (cons 'final (list 'gosho))))
+
 (define (apply-delta delta state symb)
   (assoc-get delta (cons state symb)))
 
 (define (apply-delta* delta state word)
-  (if (null? word)
-      state
-      (apply-delta* delta (apply-delta delta state (car word)) (cdr word))))
+  (define (apply-delta*-help delta state word i)
+    (if (>= i (string-length word))
+        state
+        (apply-delta*-help delta (apply-delta delta state (string-ref word i)) word (+ i 1))))
+  
+  (apply-delta*-help delta state word 0))
 
 (define (member? x l)
   (not (null? (filter (lambda (other) (equal? other x)) l))))
@@ -84,3 +101,12 @@
        (start (assoc-get automaton 'start))
        (delta (assoc-get automaton 'delta)))
     (member? (apply-delta* delta start word) finals)))
+
+
+(define (foldr op null ll)
+  (if (null? ll)
+      null
+      (op (car ll) (foldr op null (cdr ll)))))
+
+(define (flatten ll)
+  (foldr append (list) ll))
