@@ -29,7 +29,7 @@
 
 ### Пример:
 ```scheme
-(take 10 (map-stream (lambda (x) (* x x)) (nats 0))) ; -> '(0 1 4 9 16 25 36 49 64 81)
+(take 10 (map-stream (lambda (x) (* x x)) nats)) ; -> '(0 1 4 9 16 25 36 49 64 81)
 ```
 
 ## Задача 04 - Фибоначи
