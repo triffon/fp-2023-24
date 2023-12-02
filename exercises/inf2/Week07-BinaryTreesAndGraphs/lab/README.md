@@ -93,12 +93,12 @@
 ```
 
 ```racket
-(define our-cool-graph '((1 2 3)
-                         (2 3)
-                         (3 4 5)
-                         (4)
-                         (5 2 4 6)
-                         (6 2)))
+(define our-cool-graph '((1 . (2 3))
+                         (2 . (3))
+                         (3 . (4 5))
+                         (4 . ())
+                         (5 . (2 4 6))
+                         (6 . (2))))
 ```
 
 ### Задача 11
@@ -112,14 +112,14 @@
 Реализирайте процедура, която приема унарен предикат `pred?` и връх `v` и връща списък от децата на `v`, които удовлетворяват този предикат.
 
 ```racket
-(equal? our-cool-graph (filter-children even? 3) '(4))
+(equal? (filter-children our-cool-graph even? 3) '(4))
 ```
 
 ### Задача 13
 Реализирайте процедура, която премахва връх `v` от граф.
 
 ```racket
-(equal? (remove-vertex 5 our-cool-graph) ((1 2 3)
+(equal? (remove-vertex 5 our-cool-graph) '((1 2 3)
                                           (2 3)
                                           (3 4)
                                           (4)
@@ -131,7 +131,7 @@
 
 ```racket
 (equal? (path? 1 6 our-cool-graph) #t)
-(equal? (path? 5 1 our-cool-graph) #t)
+(equal? (path? 5 1 our-cool-graph) #f)
 ```
 
 ### Задача 15
