@@ -131,7 +131,7 @@
 
 ```racket
 (equal? (path? 1 6 our-cool-graph) #t)
-(equal? (path? 5 1 our-cool-graph) #t)
+(equal? (path? 5 1 our-cool-graph) #f)
 ```
 
 ### Задача 15
