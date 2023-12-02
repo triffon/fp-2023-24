@@ -66,5 +66,39 @@
                                 (lambda (w) (dfs-search (cons w path))) g)))))
   (dfs-search (list u)))
 
-(define (extend-path path g)
+(define (extend path g)
   (map-children (car path) (lambda (u) (cons u path)) g))
+
+;; Path -> Level
+;; Path -> [Path]
+;; [Vertex] -> [[Vertex]]
+(define (extend-acyclic path g)
+  (define (remains-acyclic? path)
+    (not (memv (car path) (cdr path))))
+  (filter remains-acyclic? (extend path g)))
+
+;; [Path] -> [Level]
+;; [Path] -> [[Path]]
+;; [[Vertex]] -> [[[Vertex]]]
+
+;; искаме Level -> Level
+;; [Path] -> [Path]
+(define (extend-level level g)
+  (apply append (map (lambda (path) (extend-acyclic path g)) level)))
+
+(define (bfs-path u v g)
+  (define (extend path)
+    (map-children (car path) (lambda (u) (cons u path)) g))
+  (define (remains-acyclic? path)
+    (not (memv (car path) (cdr path))))
+  (define (extend-acyclic path)
+    (filter remains-acyclic? (extend path)))
+  (define (extend-level level)
+    (apply append (map extend-acyclic level)))
+  (define (target-path path)
+    (and (eqv? (car path) v) (reverse path)))
+  (define (bfs-level level)
+    (and (not (null? level))
+         (or (search target-path level)
+             (bfs-level (extend-level level)))))
+  (bfs-level (list (list u))))
