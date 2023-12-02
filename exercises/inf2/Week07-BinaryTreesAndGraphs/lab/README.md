@@ -119,7 +119,7 @@
 Реализирайте процедура, която премахва връх `v` от граф.
 
 ```racket
-(equal? (remove-vertex 5 our-cool-graph) ((1 2 3)
+(equal? (remove-vertex 5 our-cool-graph) '((1 2 3)
                                           (2 3)
                                           (3 4)
                                           (4)
