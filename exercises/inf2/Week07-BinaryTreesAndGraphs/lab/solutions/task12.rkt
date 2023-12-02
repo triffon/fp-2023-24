@@ -7,22 +7,8 @@
                          (5 . (2 4 6))
                          (6 . (2))))
 
-(define (path? u v graph)
-  (define (helper current-start visited)
-    (let (
-        [neighbours (cdr (list-ref graph (sub1 current-start)))]
-        )
-    (cond
-      [(or (empty? neighbours) (list? (member current-start visited))) #f]
-      [(list? (member v neighbours)) #t]
-      [else (ormap (λ (neigbour) (helper neigbour (cons current-start visited))) neighbours)]
-      )
-    )
-  )
-  (helper u '())
+(define (filter-children graph pred? v)
+  (filter pred? (cdr (list-ref graph (sub1 v))))
 )
 
-(equal? (path? 1 2 our-cool-graph) #t)
-(equal? (path? 4 2 our-cool-graph) #f)
-(equal? (path? 1 6 our-cool-graph) #t)
-(equal? (path? 5 1 our-cool-graph) #f)
+(equal? (filter-children our-cool-graph even? 3) '(4))
