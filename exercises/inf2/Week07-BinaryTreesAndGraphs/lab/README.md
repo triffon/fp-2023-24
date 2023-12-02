@@ -112,7 +112,7 @@
 Реализирайте процедура, която приема унарен предикат `pred?` и връх `v` и връща списък от децата на `v`, които удовлетворяват този предикат.
 
 ```racket
-(equal? our-cool-graph (filter-children even? 3) '(4))
+(equal? (filter-children our-cool-graph even? 3) '(4))
 ```
 
 ### Задача 13
