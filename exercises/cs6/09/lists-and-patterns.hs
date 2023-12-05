@@ -60,7 +60,8 @@ fact n = n * fact (n - 1)
 
 -- Съответно можем да съпоставяме по [] и (:) за стандартните списъци
 map :: (a -> b) -> [a] -> [b]
-map = undefined
+map _ [] = []
+map f (x:xs) = f x : map f xs
 -- Не забравяйте за скобите в (x:xs)
 
 -- map еквивалент на Scheme:
@@ -106,8 +107,7 @@ circlePerimeter r =
 -- Пример:
 circleArea :: Float -> Float
 circleArea r = pi * r * r
-  where
-    pi = 3.14
+  where pi = 3.14
 
 -- * Внимавайте с идентацията!
 
