@@ -58,3 +58,12 @@
 (define ones (cons-stream 1 ones))
 
 (define nats (cons-stream 0 (map-stream 1+ nats)))
+
+(define fibs (cons-stream 0 (cons-stream 1 (zip-streams + fibs (tail fibs)))))
+
+(define (nondivisor d) (lambda (n) (> (remainder n d) 0)))
+
+;; (define (sieve s) (cons-stream (head s) (filter-stream (nondivisor (head s)) (sieve (tail s)))))
+(define (sieve s) (cons-stream (head s) (sieve (filter-stream (nondivisor (head s)) (tail s)))))
+
+(define primes (sieve (from 2)))
