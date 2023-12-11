@@ -13,7 +13,7 @@ sumSpecialPrimes :: Int -> Int -> Int
 
 intSqrt = floor . sqrt . fromIntegral
 
-isPrime n = n /= 1 && length [ x | x <- [2 .. intSqrt n], mod n x == 0] == 0
+isPrime n = n /= 1 && null [ x | x <- [2 .. intSqrt n], mod n x == 0]
 
 constains digit number = elem digit $ map digitToInt $ show number
 
