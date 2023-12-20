@@ -17,3 +17,5 @@
 [Седмица 09](./09-haskell-intro/): Въведение в Haskell
 
 [Седмица 10](./10-haskell-intro-part-2/): Въведение в Haskell - продължение
+
+[Седмица 11](./11-haskell-adts/): Алгебрични Типове Данни (ADTs) и typeclasses в Haskell
