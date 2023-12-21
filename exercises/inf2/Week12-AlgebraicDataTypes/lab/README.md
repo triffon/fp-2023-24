@@ -4,7 +4,7 @@
 Дефинирайтe ADT `Shape`, който има следните конструктори:
  - `Circle` - с един аргумент, резпрезентиращ радиуса на кръга
  - `Rectangle` - с два аргумента, резпрезентиращи дължината и ширината на правоъгълника
- - `Triangle`
+ - `Triangle` - с три аргумента, неговите дължини
  - `Cylinder` - с два аргумента, радиуса на основата и височината
 
 Създайте по една фигура от всеки тип и я отпечатайте на екрана.
@@ -18,28 +18,28 @@
 
 ```haskell
 print $ perimeter (Circle 5) == 31.41592653589793
-    print $ perimeter (Rectangle 2.5 4.5) == 14
-    print $ perimeter (Rectangle 5.5 20.6) == 52.2
-    print $ perimeter (Triangle 5.3 3.9 4.89) == 14.09
-    print $ perimeter (Cylinder 2.5 10) == 30
+print $ perimeter (Rectangle 2.5 4.5) == 14
+print $ perimeter (Rectangle 5.5 20.6) == 52.2
+print $ perimeter (Triangle 5.3 3.9 4.89) == 14.09
+print $ perimeter (Cylinder 2.5 10) == 30
 
-    print $ area (Circle 5) == 78.53981633974483
-    print $ area (Rectangle 2.5 4.5) == 11.25
-    print $ area (Rectangle 5.5 20.6) == 113.30000000000001
-    print $ area (Triangle 5.3 3.9 4.89) == 9.127927385194024
-    print $ area (Cylinder 20 30) == 6283.185307179587  
+print $ area (Circle 5) == 78.53981633974483
+print $ area (Rectangle 2.5 4.5) == 11.25
+print $ area (Rectangle 5.5 20.6) == 113.30000000000001
+print $ area (Triangle 5.3 3.9 4.89) == 9.127927385194024
+print $ area (Cylinder 20 30) == 6283.185307179587  
 
-    print $ isRound (Circle 5) == True
-    print $ isRound (Rectangle 2.5 4.5) == False
-    print $ isRound (Rectangle 5.5 20.6) == False
-    print $ isRound (Triangle 5.3 3.9 4.89) == False
-    print $ isRound (Cylinder 20 30) == True
+print $ isRound (Circle 5) == True
+print $ isRound (Rectangle 2.5 4.5) == False
+print $ isRound (Rectangle 5.5 20.6) == False
+print $ isRound (Triangle 5.3 3.9 4.89) == False
+print $ isRound (Cylinder 20 30) == True
 
-    print $ is2D (Circle 5) == True
-    print $ is2D (Rectangle 2.5 4.5) == True
-    print $ is2D (Rectangle 5.5 20.6) == True
-    print $ is2D (Triangle 5.3 3.9 4.89) == True
-    print $ is2D (Cylinder 20 30) == False
+print $ is2D (Circle 5) == True
+print $ is2D (Rectangle 2.5 4.5) == True
+print $ is2D (Rectangle 5.5 20.6) == True
+print $ is2D (Triangle 5.3 3.9 4.89) == True
+print $ is2D (Cylinder 20 30) == False
 
 -- Perimeter of a cylinder: 4 * r + 2 * h.
 -- Area of a cylinder: 2 * pi * r * h + 2 * pi * r * r.
@@ -63,27 +63,27 @@ print $ maxArea [Circle 5, Rectangle 2.5 4.5, Rectangle 5.5 20.6, Triangle 5.3 3
 Дефинирайте ADT `Point`, който може да има 2 или 3 измерения. Създайте по една точка от всеки тип и я принтирайте. Дефинирайте функция от по-висок ред `getPoints`, която приема две унарни функции `f` и `g` и списък от точки с две координати. Функцията да връща тези точки, за които `f (first coordinate) = g (second coordinate)`.
 
 ```haskell
-print $ getPoints (\x -> x * x) (2+) [TwoD 2 2, TwoD 1 2, TwoD 3 7] == [TwoD 2 2, TwoD 3 7]
+print $ getPoints (\x -> x * x) (2+) [Point2D 2 2, Point2D 1 2, Point2D 3 7] == [Point2D 2 2, Point2D 3 7]
 ```
 
 ### Задача 6
 Дефинирайте функцция, кооято намира разстоянието между две точки. Подсигурете, че точките имат еднакъв брой измерения.
 
 ```haskell
-print $ distance (TwoD 2 5) (TwoD 6 9) == 5.66
-print $ distance (ThreeD 2 5 10) (ThreeD 6 9 (-5)) == 16.03
+print $ distance (Point2D 2 5) (Point2D 6 9) == 5.66
+print $ distance (Point3D 2 5 10) (Point3D 6 9 (-5)) == 16.03
 ```
 
 ### Задача 7
 Дефинирйте функцция, която приема точка `p` и списък от точки. Функцията трябва да връща списък от точките, които са най-близо до `p`.
 
 ```haskell
-print $ closestTo (ThreeD 2 5 10) [(ThreeD 4 5 6), (ThreeD 5 2 (-10)), (ThreeD (-2) 1 45), (ThreeD 12 0 2), (ThreeD 6 5 4)] == [ThreeD 4.0 5.0 6.0]
+print $ closestTo (Point3D 2 5 10) [(Point3D 4 5 6), (Point3D 5 2 (-10)), (Point3D (-2) 1 45), (Point3D 12 0 2), (Point3D 6 5 4)] == [Point3D 4.0 5.0 6.0]
 ```
 
 ### Задача 8
 Дефинирайте функция, която приема списък от точки и връща наредена тройка `d, p1, p2`, репрезентираща най-близкоото разстояние между които и да е две точки и самите точки.
 
 ```
- print $ getClosestDistance [(ThreeD 4 5 6), (ThreeD 2 5 10), (ThreeD 5 2 (-10)), (ThreeD (-2) 1 45), (ThreeD 12 0 2), (ThreeD 6 5 4)] == (2.83,ThreeD 4.0 5.0 6.0,ThreeD 6.0 5.0 4.0)
+ print $ getClosestDistance [(Point3D 4 5 6), (Point3D 2 5 10), (Point3D 5 2 (-10)), (Point3D (-2) 1 45), (Point3D 12 0 2), (Point3D 6 5 4)] == (2.83, Point3D 4.0 5.0 6.0, Point3D 6.0 5.0 4.0)
 ```
