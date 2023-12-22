@@ -9,6 +9,13 @@
 5. [foldl, foldr и функции на много аргументи](./05)
 6. [Дървета и асоциативни списъци](./06)
 7. [Графи и потоци](./07)
+8. [Въведение в Haskell](./08)
+9. [Генератори на списъци и образци](./09)
+10. [Задачи върху потоци](./10)
+11. [Типове в Haskell](./11)
 
 ### Други
 - [Решения на задачи от контролни](./exams/)
+- [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/)
+- [Търсачка по имена и типови декларации (Hoogle)](https://hoogle.haskell.org/)
+- [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)

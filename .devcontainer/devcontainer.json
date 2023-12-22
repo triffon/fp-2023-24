@@ -1,0 +1,23 @@
+{
+  "name": "Haskell",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      // Manage HLS via GHCup
+      "settings": {
+        "haskell.manageHLS": "GHCup"
+      },
+      "extensions": [
+        // Haskell support
+        "haskell.haskell",
+        // Bulgarian support
+        "ms-ceintl.vscode-language-pack-bg"
+
+      ]
+    }
+  },
+  // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode"
+}
