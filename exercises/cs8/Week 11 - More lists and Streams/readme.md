@@ -5,7 +5,7 @@
 
 ### Пример:
 ```haskell
-leftPad "Hello" 8 '+' -- "+++Hello"
+ghci> leftPad "Hello" 8 '+' -- "+++Hello"
 ```
 
 ## Задача 02 - Съединяване с разделител
@@ -13,7 +13,7 @@ leftPad "Hello" 8 '+' -- "+++Hello"
 
 ### Пример:
 ```haskell
-join ["Hello", "World", "My", "Friend"] ' ' -- "Hello World My Friend"
+ghci> join ["Hello", "World", "My", "Friend"] ' ' -- "Hello World My Friend"
 ```
 
 ## Задача 03 - Подмножества
