@@ -113,15 +113,15 @@ hop [Just 2, Nothing, Just 4] == Nothing
 8. (**БОНУС** 3т) Дефинирайте функции от типовете `pure_ :: a -> _ a`, `flatten_ :: _ (_ a) -> _ a` и `andThen_ :: _ a -> (a -> _ b) -> _ b`, където `_` е съответно `Maybe'`, `Either' e` и `List'`. Помислете/обсъдете какво би било смислено да правят
 
 ```haskell
-pureMaybe'  :: a -> Maybe'  a
-pureEither' :: a -> Either' a
-pureList'   :: a -> List'   a
+pureMaybe'  :: a -> Maybe'    a
+pureEither' :: a -> Either' e a
+pureList'   :: a -> List'     a
 
 flattenMaybe'  :: Maybe'    (Maybe'    a) -> Maybe'    a
-flattenEither' :: Either' e (Either' e b) -> Either' e a
+flattenEither' :: Either' e (Either' e a) -> Either' e a
 flattenList'   :: List'     (List'     a) -> List'     a
 
-andThenMaybe'  :: Maybe'  a -> (a -> Maybe'  b) -> Maybe'  b
-andThenEither' :: Either' a -> (a -> Either' b) -> Either' b
-andThenList'   :: List'   a -> (a -> List'   b) -> List'   b
+andThenMaybe'  :: Maybe'    a -> (a -> Maybe'    b) -> Maybe'    b
+andThenEither' :: Either' e a -> (a -> Either' e b) -> Either' e b
+andThenList'   :: List'     a -> (a -> List'     b) -> List'     b
 ```
