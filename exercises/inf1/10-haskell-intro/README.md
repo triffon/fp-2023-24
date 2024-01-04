@@ -32,7 +32,10 @@
     - `[1, 2, 3] :: [Int]`
 - `(foo, bar)` - tuple с първи елемент от тип `foo` и втори елемент от тип `bar`
     - `(1, pow) :: (Int, Float -> Float)`
-- `String = [Char]`
+
+#### Типови псевдоними (type aliases)
+- `type RatNum = (Int, Int)`
+- `type String = [Char]`
 
 #### Дефиниране
 - константа:
