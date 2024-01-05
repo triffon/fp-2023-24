@@ -35,6 +35,14 @@ testTree = Node 5
                             (Node 10 Empty Empty) 
                             (Node 9 Empty Empty)) 
                       (Node 11 Empty Empty))
+
+bst :: BST Integer
+bst = BSTNode 3 (BSTNode 1 
+                         BSTEmpty 
+                         (BSTNode 2 BSTEmpty BSTEmpty))
+                (BSTNode 4 
+                         BSTEmpty 
+                         (BSTNode 5 BSTEmpty BSTEmpty))
 ```
 
 ## Задача 03 - Ротации
