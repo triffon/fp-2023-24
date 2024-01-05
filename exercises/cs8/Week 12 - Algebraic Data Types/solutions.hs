@@ -68,16 +68,6 @@ testTree = Node 5
                             (Node 9 Empty Empty)) 
                       (Node 11 Empty Empty))
 
-instance Functor BinaryTree where
-    fmap :: (a -> b) -> BinaryTree a -> BinaryTree b
-    fmap _ Empty = Empty
-    fmap f (Node root left right) = Node (f root) (fmap f left) (fmap f right)
-
-instance Foldable BinaryTree where
-    foldr :: (a -> b -> b) -> b -> BinaryTree a -> b
-    foldr _ nv Empty = nv
-    foldr op nv (Node root left right) = op root $ foldr op (foldr op nv left) right
-
 data BST t = BSTEmpty | BSTNode t (BST t) (BST t)
 
 -- type Graph t = [(t, [t])]
