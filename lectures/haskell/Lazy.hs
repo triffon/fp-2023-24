@@ -1,5 +1,7 @@
 module Lazy where
 
+import Prelude hiding (foldl')
+
 ones :: [Integer]
 ones = 1 : ones
 
@@ -44,3 +46,21 @@ pairs = concat [ if x == y then [(x,x)] else [(x, y), (y, x)] | x <- [0..], y <-
 
 -- >>> :t ($)
 -- ($) :: (a -> b) -> a -> b
+
+-- f x = f (1 - x)
+-- f x = seq x $ f (1 - x)
+f x = f $! (1 - x)
+
+-- >>> f 0
+
+second :: p1 -> p2 -> p2
+second _ y = y
+
+foldl' :: (b -> a -> b) -> b -> [a] -> b
+foldl' _ nv []      = nv
+foldl' op nv (x:xs) = (foldl' op $! nv `op` x) xs
+
+x :: Integer
+x = foldl' (+) 0 $ replicate 10000000 1
+-- >>> x
+-- 10000000
