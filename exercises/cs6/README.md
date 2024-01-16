@@ -13,9 +13,13 @@
 9. [Генератори на списъци и образци](./09)
 10. [Задачи върху потоци](./10)
 11. [Типове в Haskell](./11)
+12. [Задачи за дървета и въведение в IO](./12)
+13. [Типови класове](./13)
 
 ### Други
 - [Решения на задачи от контролни](./exams/)
+- [Изпити и контролни от минали години](./past-exams/)
 - [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/)
 - [Търсачка по имена и типови декларации (Hoogle)](https://hoogle.haskell.org/)
+- [Типови класове в Haskell (Typeclassopedia)](https://wiki.haskell.org/Typeclassopedia)
 - [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
