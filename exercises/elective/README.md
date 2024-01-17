@@ -23,3 +23,5 @@
 [Седмица 12](./12-haskell-maybe-either-functor/): `Maybe`, `Either`, `Functor`
 
 [Седмица 13](./13-haskell-monads-io-programs/): `Monads`, `IO`, `programs`
+
+[Седмица 14](./14-review): Преговор

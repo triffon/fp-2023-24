@@ -51,13 +51,27 @@ lastIndex :: Eq a => a -> [a] -> Int
 lastIndex x xs = length xs - 1 - findIndex' x (reverse xs)
 
 furthestDup :: [Int] -> Int
-furthestDup [] = 0 -- Разстояние от 0 е невалидно 
+furthestDup [] = 0 -- Разстояние от 0 е невалидно
 furthestDup (x:xs)
   | x `elem` xs = max (succ $ findIndex' x xs) (furthestDup xs) -- Срещнали сме x веднъж, да видим колко места има до следващото
   | otherwise   = furthestDup xs
 
+-- Има я в Data.List, правихме я и на упражнения
+elemIndex :: Eq a => a -> [a] -> Maybe Int
+elemIndex _ [] = Nothing
+elemIndex y (x:xs)
+  | x == y    = Just 0
+  | otherwise = succ <$> elemIndex y xs
+
 furthestDup' :: [Int] -> Int
-furthestDup' xs = maximum [ lastIndex x xs - findIndex' x xs | x<-dups xs ]
+furthestDup' [] = 0 -- Разстояние от 0 е невалидно
+furthestDup' (x:xs) =
+  case elemIndex x xs
+  of Just i -> max (i+1) (furthestDup' xs) -- С едно обхождане проверяваме дублира ли се и ако да, къде
+     Nothing -> furthestDup' xs
+
+furthestDup'' :: [Int] -> Int
+furthestDup'' xs = maximum [ lastIndex x xs - findIndex' x xs | x<-dups xs ]
 
 -- Бонус: числата, които биха променили резултата от allDups при прибавяне веднъж
 -- към всеки списък, са тези които вече се срещат точно по веднъж във всеки списък.
