@@ -66,22 +66,22 @@ instance Monad Perhaps where
 
 -- data Maybe a = Just a | Nothing
 
-data State a = WithState (Int -> (a, Int))
+data State s a = WithState (s -> (a, s))
 
-instance Functor State where
-  -- fmap :: (a -> b) -> State a -> State b
+instance Functor (State s) where
+  -- fmap :: (a -> b) -> State s a -> State s b
   fmap f (WithState run) = WithState run'
     where
       run' beginState = (f x, oldState)
         where
           (x, oldState) = run beginState
 
-instance Applicative State where
+instance Applicative (State s) where
   pure x = WithState (\beginState -> (x, beginState))
 
-  -- runF :: Int -> (a -> b, Int)
-  -- runX :: Int -> (a, Int)
-  -- run  :: Int -> (b, Int)
+  -- runF :: s -> (a -> b, s)
+  -- runX :: s -> (a, s)
+  -- run  :: s -> (b, s)
   (WithState runF) <*> (WithState runX) = WithState run
     where
       run beginState = (f x, stateAfterX)
@@ -89,8 +89,8 @@ instance Applicative State where
           (x, stateAfterX) = runX stateAfterF
           (f, stateAfterF) = runF beginState
 
-instance Monad State where
-  -- (>>=)       :: State a -> (a -> State b) -> State b
+instance Monad (State s) where
+  -- (>>=)       :: State s a -> (a -> State s b) -> State s b
   (WithState runX) >>= f = WithState run
     where
       run beginState = (y, stateFinal)
@@ -98,3 +98,105 @@ instance Monad State where
           (x, stateAfterX) = runX beginState
           (WithState runFX) = f x
           (y, stateFinal) = runFX stateAfterX
+
+getState :: State s s
+getState = WithState run
+  where
+    run internalState = (internalState, internalState)
+
+setState :: s -> (State s ())
+setState newState = (WithState run)
+  where
+    run _internalState = ((), newState)
+
+data Tree = Tree
+  { children :: [Tree]
+  , label :: String
+  }
+  deriving (Show)
+
+myTree :: Tree
+myTree = Tree
+  { label = "root"
+  , children = [
+    Tree
+      { label = "foo"
+      , children = []
+      },
+    Tree
+      { label = "bar"
+      , children = [
+        Tree
+          { label = "qux"
+          , children = []
+          },
+        Tree
+          { label = "qox"
+          , children = []
+          }
+        ]
+      }
+    ]
+  }
+
+getLabels :: Tree -> [String]
+getLabels (Tree { label, children }) = (concat $ map getLabels children) ++ [label]
+
+addLabelsNW :: Tree -> Tree
+addLabelsNW (Tree { label, children }) = Tree
+  { label = label ++ "?"
+  , children = map addLabelsNW children
+  }
+
+runState :: s -> State s a -> a
+runState initialState (WithState run) = value
+  where
+    (value, _endState) = run initialState
+
+addLabels :: Tree -> Tree
+addLabels t = runState 0 (addLabels' t)
+
+addLabels' :: Tree -> State Int Tree
+addLabels' (Tree { label, children }) = do
+  newChildren <- myMapM addLabels' children
+  counter <- getState
+  let newCounter = counter + 1
+  setState newCounter
+
+  pure Tree
+    { label = label ++ show counter
+    , children = newChildren
+    }
+
+addLabelsFromList :: [String] -> Tree -> Tree
+addLabelsFromList labels t = runState labels (addLabelsFromList' t)
+
+addLabelsFromList' :: Tree -> State [String] Tree
+addLabelsFromList' (Tree { label, children }) = do
+  newChildren <- myMapM addLabelsFromList' children
+  labels <- getState
+  let (newLabel, newLabels) = popLabel labels
+
+  setState newLabels
+
+  pure Tree
+    { label = label ++ ":" ++ newLabel
+    , children = newChildren
+    }
+
+popLabel :: [String] -> (String, [String])
+popLabel [] = ("no more labels", [])
+popLabel (l:ls) = (l, ls)
+
+myMapM :: (Monad m) => (a -> m b) -> [a] -> m [b]
+myMapM _ [] = pure []
+myMapM f (x:xs) = do
+  y <- f x
+  ys <- myMapM f xs
+  pure (y:ys)
+
+main :: IO ()
+main = do
+  name <- getLine
+  let str = "hello, " ++ name
+  putStrLn str
